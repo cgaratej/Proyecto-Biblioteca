@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Proyecto_Biblioteca.Models.Libros>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Libros</h1>
+    <p>@ViewData["ur"]</p>
+    @if (Model.Count() > 0)
+    {
+        @foreach(var item in Model)
+        {
+        <div style="display: inline-block">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.name</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Autor: @item.autor</h6>
+                    <p class="card-text">@item.description</p>
+                        @if(item.linkVideo == null)
+                        {
+                            <a href="#" style="display: none;" class="card-link">Link Video</a>
+                        }
+                    <a href="@item.linkVideo" class="card-link">Link Video</a>
+                    <a asp-controller="Libros" asp-action="PDF" asp-route-id="@item.id" class="card-link">Link pdf</a>
+                </div>
+            </div>
+        </div>
+        } 
+    }
+    else
+    {
+        <p>No existen Libros</p>
+    }
+</div>
+

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<Proyecto_Biblioteca.Models.Users>
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <a asp-controller="User" asp-action="Create" asp-route-id="@ViewData["rango"]">Crear</a>
+    
+</div>
+
