@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Proyecto_Biblioteca.Data;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
 
 namespace Proyecto_Biblioteca
 {
@@ -29,10 +28,22 @@ namespace Proyecto_Biblioteca
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConection")));
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
-            services.AddSession(opciones => {
+
+            //cookie session
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(option =>
+                {
+                    option.LoginPath = "/User/Index";
+                    option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+                    option.AccessDeniedPath = "/Home/Privacy";
+                });
+            services.AddSession(opciones =>
+            {
                 opciones.IdleTimeout = TimeSpan.FromMinutes(120); //Puedes configurar el tiempo   
             });
             services.AddMvc();
+
+            //ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +60,8 @@ namespace Proyecto_Biblioteca
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
             

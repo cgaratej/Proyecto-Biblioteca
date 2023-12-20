@@ -1,22 +1,10 @@
-﻿@using Microsoft.AspNetCore.Http
-@model Proyecto_Biblioteca.Models.Users
+﻿@model Proyecto_Biblioteca.Models.Users
 @{
     ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    int rango;
-    if(ViewData["rango"] != null)
-    {
-        rango = (int)ViewData["rango"];
-    }
-    else
-    {
-        rango = 0;
-    }
 }
 
 <div class="container">
-    @if (rango == 3 || rango == 2)
-    {
         <form method="post" asp-action="Create" enctype="multipart/form-data">
             <div class="form-group">
             <label asp-for="name" class="control-label">Pon un Usuario</label>
@@ -37,10 +25,6 @@
              <input type="submit" value="Crear Usuario" class="btn btn-primary" />
         </div>
         </form>
-    }
-    else
-    {
         <div>No tines permiso</div>
-    }
 </div>
 
