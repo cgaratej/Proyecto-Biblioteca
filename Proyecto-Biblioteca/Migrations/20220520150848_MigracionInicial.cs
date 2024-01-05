@@ -17,7 +17,7 @@ namespace Proyecto_Biblioteca.Migrations
                     autor = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(300)", nullable: false),
                     linkVideo = table.Column<string>(type: "nvarchar(300)", nullable: true),
-                    UrlPdf = table.Column<byte[]>(type: "varbinary(300)", nullable: false)
+                    UrlPdf = table.Column<string>(type: "nvarchar(300)", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -26,6 +26,7 @@ namespace Proyecto_Biblioteca
             //Conction Base de datos
             services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConection")));
+
             services.AddControllersWithViews();
             services.AddDistributedMemoryCache();
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Grpc.Core;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Proyecto_Biblioteca.Data;
 using Proyecto_Biblioteca.Models;
@@ -37,27 +38,30 @@ namespace Proyecto_Biblioteca.Controllers
         {
             if (ModelState.IsValid)
             {
-                string path = Path.Combine(/*Directory.GetCurrentDirectory(),*/ "wwwroot/Docs");
+                //Creat folder if no existies
+                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Docs");
+                if (!Directory.Exists(folderPath))
+                    Directory.CreateDirectory(folderPath);
 
-                //create folder if not exist
-                if (!Directory.Exists(path))
-                    Directory.CreateDirectory(path);
+                // Generar nombre de archivo único para evitar conflictos
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.File.FileName;
 
-                //get file extension
+                // Combinar ruta con nombre de archivo único
+                string filePath = Path.Combine(folderPath, uniqueFileName);
 
-                string fileName = model.File.FileName;
-
-                string fileNameWithPath = Path.Combine(path, fileName);
-                
-                using (var stream = new FileStream(fileNameWithPath, FileMode.Create))
+                // Guardar archivo
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     model.File.CopyTo(stream);
                 }
-                model.UrlPdf = fileNameWithPath;
+
+                // Actualizar modelo con la URL del PDF
+                model.UrlPdf = Path.Combine("Docs", uniqueFileName);
+
+                // Guardar modelo en la base de datos
                 context.libros.Add(model);
                 context.SaveChanges();
 
-                //TempData["mensaje"] = "El libro se ha creado correctamente";
                 return RedirectToAction("Index");
             }
             return View();
@@ -109,7 +113,7 @@ namespace Proyecto_Biblioteca.Controllers
             }
             return View(libro);
         }
-        //Http Post Create
+        //Http Post Delete
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteLibro(int? id)
@@ -122,24 +126,26 @@ namespace Proyecto_Biblioteca.Controllers
             }
             context.libros.Remove(model);
             context.SaveChanges();
-
-            //TempData["mensaje"] = "El libro se ha creado correctamente";
             return RedirectToAction("Index");
 
         }
         //PDF
         public IActionResult PDF(int? id)
         {
-            if (id == null || id == 0)
+            if (id == null || !id.HasValue)
             {
                 return NotFound();
             }
+
             var libro = context.libros.Find(id);
+
             if (libro == null)
             {
                 return NotFound();
             }
-            return View(libro);
+
+            // Usar la URL relativa del PDF
+            return File(libro.UrlPdf, "application/pdf");
         }
     }
 }

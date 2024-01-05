@@ -5,7 +5,6 @@
 
 <div class="text-center">
     <h1 class="display-4">Libros</h1>
-    <p>@ViewData["ur"]</p>
     @if (Model.Count() > 0)
     {
         @foreach(var item in Model)
@@ -20,7 +19,10 @@
                         {
                             <a href="#" style="display: none;" class="card-link">Link Video</a>
                         }
-                    <a href="@item.linkVideo" class="card-link">Link Video</a>
+                        else
+                        {
+                            <a href="@item.linkVideo" class="card-link">Link Video</a>
+                        }
                     <a asp-controller="Libros" asp-action="PDF" asp-route-id="@item.id" class="card-link">Link pdf</a>
                 </div>
             </div>

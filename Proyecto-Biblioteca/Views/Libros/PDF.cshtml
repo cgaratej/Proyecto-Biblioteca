@@ -1,15 +1,10 @@
 ﻿@model Proyecto_Biblioteca.Models.Libros
 @{
     ViewData["Title"] = "Pdf";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    
-    
 }
-@*<form style="display: block">
-    <input id="url" asp-for="UrlPdf" class="form-control" disabled/>
-</form>
-<p>@Model.UrlPdf</p>*@
 
-<div id="docPDF">
-    <iframe src='https://docs.google.com/gview?url=@Model.UrlPdf&embedded=true' style='width:100%; height:700px;' frameborder='0'></iframe>
-</div>
+<body>
+    <div>
+        <iframe src="@Url.Action("MostrarPDF", "Libros", new { id = Model.id })" width="800" height="600"></iframe>
+    </div>
+</body>

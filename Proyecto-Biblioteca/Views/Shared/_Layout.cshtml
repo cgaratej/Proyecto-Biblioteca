@@ -21,12 +21,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        @*if (User.IsInRole("3") || User.IsInRole("2"))
-                        {*@
+                        if (User.IsInRole("3") || User.IsInRole("2"))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Libros" asp-action="Index">Libros</a>
                             </li>
-                        @*}*@
+                        }
                         @if (User.IsInRole("3") || User.IsInRole("1"))
                         {
                             <li class="nav-item">
@@ -36,7 +36,7 @@
                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
                         </li>
-                        @if (User.IsInRole("3") || User.IsInRole("2") || User.IsInRole("1"))
+                        @if (User.IsInRole("3") || User.IsInRole("0") || User.IsInRole("1"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Close">Salir</a>
@@ -55,7 +55,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - Proyecto_Biblioteca - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Proyecto_Biblioteca - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

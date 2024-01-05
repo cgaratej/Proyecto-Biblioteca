@@ -20,7 +20,12 @@ namespace Proyecto_Biblioteca.Models
         public string description { get; set; }
         [Display(Name = "Video Url")]
         public string linkVideo { get; set; }
+        [Required(ErrorMessage = "El pdf es obligatorio")]
+        [Display(Name = "Url Pdf")]
         public string UrlPdf { get; set; }
+        /*[Required(ErrorMessage = "Las categorias")]
+        [Display(Name = "Categorias")]
+        public string categories { get; set; }*/
         [NotMapped]
         [Display(Name = "Pdf Libro")]
         public IFormFile File { get; set; }

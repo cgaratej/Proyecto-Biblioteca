@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Proyecto_Biblioteca.Data;
+using Proyecto_Biblioteca.Migrations;
 using Proyecto_Biblioteca.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,6 @@ namespace Proyecto_Biblioteca.Controllers
 
         public IActionResult Index()
         {
-            ViewData["ur"] = TempData["rango"];
             IEnumerable<Libros> listaLibros = context.libros;
             return View(listaLibros);
         }

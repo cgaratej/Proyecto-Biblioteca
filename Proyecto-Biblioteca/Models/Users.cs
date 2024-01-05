@@ -16,10 +16,9 @@ namespace Proyecto_Biblioteca.Models
         public string password { get; set; }
         [Required(ErrorMessage = "El Rango es obligatorio")]
         [Display(Name = "Rango")]
-        /*1 = Creador de usurios
-          2 = Creador de Libros y categorias
-          3 = Administrador*/
         public int rango { get; set; }
-
+        [NotMapped]
+        [Display(Name = "isAdmin")]
+        public bool isAdmin { get; set; }
     }
 }
