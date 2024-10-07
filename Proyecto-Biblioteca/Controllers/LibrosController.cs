@@ -64,6 +64,7 @@ namespace Proyecto_Biblioteca.Controllers
 
                 return RedirectToAction("Index");
             }
+            ViewBag.Message = "El libro no fue creado con éxito!";
             return View();
         }
 

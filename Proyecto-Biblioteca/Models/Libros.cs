@@ -9,20 +9,26 @@ namespace Proyecto_Biblioteca.Models
         //Elemtos que tandra la tabal de la base de datos
         [Key]
         public int id { get; set; }
+
         [Required(ErrorMessage = "El name es obligatorio")]
         [Display(Name = "Nombre")]
         public string name { get; set; }
+
         [Required(ErrorMessage = "El autor es obligatorio")]
         [Display(Name = "Autor")]
         public string autor { get; set; }
+
         [Required(ErrorMessage = "La descrpción es obligatorio")]
         [Display(Name = "Descripcion")]
         public string description { get; set; }
+
         [Display(Name = "Video Url")]
         public string linkVideo { get; set; }
-        [Required(ErrorMessage = "El pdf es obligatorio")]
+
+        //[Required(ErrorMessage = "El pdf es obligatorio")]
         [Display(Name = "Url Pdf")]
         public string UrlPdf { get; set; }
+
         /*[Required(ErrorMessage = "Las categorias")]
         [Display(Name = "Categorias")]
         public string categories { get; set; }*/

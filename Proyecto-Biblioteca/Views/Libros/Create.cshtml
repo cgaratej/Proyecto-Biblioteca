@@ -42,6 +42,12 @@
                 <div class="from-group">
                     <input type="submit" value="Crear Libro" class="btn btn-primary" />
                 </div>
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-success">
+                        @ViewBag.Message
+                    </div>
+                }
             </form>
         </div>
     </div>

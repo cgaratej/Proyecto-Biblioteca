@@ -5,7 +5,133 @@
 }
 
 <div class="container">
-    <a asp-controller="User" asp-action="Create" asp-route-id="@ViewData["rango"]">Crear</a>
-    
-</div>
+    <div class="container">
+        @if (TempData["mensaje"] != null)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <strong>@TempData["mensaje"]</strong>
+            </div>
+        }
+        <div class="row">
+            <div class="col-sm-6">
+                <h3>Lista de Usuarios</h3>
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-success d-block" asp-controller="User" asp-action="Create" asp-route-id="@ViewData["rango"]">Agregar Usuario</a>
+            </div>
+        </div>
+        <div class="row">
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <tr>
+                        <td>@Html.DisplayNameFor(m => m.id)</td>
+                        <td>@Html.DisplayNameFor(m => m.name)</td>
+                        <td>@Html.DisplayNameFor(m => m.rango)</td>
+                        <td>Acciones</td>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.id</td>
+                            <td>@item.name</td>
+                            <td>@item.rango</td>
+                            <td>
+                                <a asp-controller="User" asp-action="Edit_User" asp-route-id="@item.id" class="btn btn-warning">Editar</a>
+                                <button onclick="confirmDelete(@item.id)" class="btn btn-danger">Borrar</button>
+                            </td>
+                        </tr>
+                    }
+                </table>
+            }
+            else
+            {
+                <p>No existen registros</p>
+            }
+        </div>
+        <!-- Modal de confirmación -->
+        <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Borrado</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Estás seguro de que quieres borrarlo?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-danger" id="confirmDeleteButton">Borrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <!-- Modal de resultado -->
+        <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="resultModalLabel">Resultado</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="resultModalBody">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<form id="deleteForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<script>
+    let deleteId = null;
+
+    function confirmDelete(id) {
+        deleteId = id;
+        $('#confirmDeleteModal').modal('show');
+    }
+
+    document.getElementById('confirmDeleteButton').addEventListener('click', function () {
+        if (deleteId !== null) {
+            // Obtener el token de verificación del formulario oculto
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            // Realizar la solicitud fetch para borrar el elemento
+            fetch(`/User/Delete/${deleteId}`, {
+                method: 'DELETE',
+                headers: {
+                    'RequestVerificationToken': token
+                }
+            })
+                .then(response => {
+                    $('#confirmDeleteModal').modal('hide');
+                    if (response.ok) {
+                        showResultModal("Elemento borrado exitosamente.");
+                        // Redirigir o actualizar la página según sea necesario
+                        setTimeout(() => {
+                            window.location.href = '/User/Index';
+                        }, 2000);
+                    } else {
+                        showResultModal("Error al borrar el elemento.");
+                    }
+                });
+        }
+    });
+
+    function showResultModal(message) {
+        document.getElementById('resultModalBody').innerText = message;
+        $('#resultModal').modal('show');
+    }
+</script>
