@@ -67,7 +67,3 @@ Las contribuciones son bienvenidas. Por favor, abre un issue o un pull request p
 
 Este proyecto está licenciado bajo la Licencia MIT. Consulta el archivo [LICENSE](LICENSE) para más detalles.
 
-## Contacto
-
-Para cualquier consulta o sugerencia, por favor contacta a [tu-email@dominio.com](mailto:tu-email@dominio.com).
-
